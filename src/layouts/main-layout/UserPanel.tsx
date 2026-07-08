@@ -1,11 +1,22 @@
 import { useNavigate } from 'react-router-dom';
-import { Button, Avatar, Tooltip, Divider } from 'antd';
-import { UserOutlined, ProfileOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Button, Avatar, Dropdown } from 'antd';
+import { UserOutlined, TeamOutlined, ProfileOutlined, SettingOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons';
 import { useAuthStore } from '@/stores/authStore';
+import type { MenuProps } from 'antd';
 
 export default function UserPanel() {
   const navigate = useNavigate();
-  const { userInfo, logout } = useAuthStore();
+  const { userInfo, manageableRoles, logout } = useAuthStore();
+
+  const menuItems: MenuProps['items'] = [
+    { key: 'profile', icon: <ProfileOutlined />, label: '个人中心', onClick: () => navigate('/profile') },
+    { key: 'settings', icon: <SettingOutlined />, label: '系统设置' },
+    ...(manageableRoles.includes('SUPER_ADMIN') || manageableRoles.includes('ADMIN')
+      ? [{ key: 'users', icon: <TeamOutlined />, label: '用户管理', onClick: () => navigate('/system/user') }] as MenuProps['items']
+      : []),
+    { type: 'divider' as const },
+    { key: 'logout', icon: <LogoutOutlined />, label: '退出登录', onClick: logout, danger: true },
+  ];
 
   return (
     <div
@@ -15,9 +26,10 @@ export default function UserPanel() {
         bottom: 0,
         left: 0,
         zIndex: 1000,
-        width: 200,
-        padding: '16px 12px',
+        width: 600,
+        padding: '14px 12px',
         borderRadius: '0 22px 0 0',
+        borderTop: '1px solid rgba(30, 64, 175, 0.25)',
         borderLeft: 'none',
         borderBottom: 'none',
       }}
@@ -32,15 +44,9 @@ export default function UserPanel() {
             {userInfo?.roleNames?.join('、') || '—'}
           </div>
         </div>
-      </div>
-      <Divider style={{ margin: '10px 0 8px' }} />
-      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <Tooltip title="个人中心">
-          <Button type="text" size="small" icon={<ProfileOutlined />} onClick={() => navigate('/profile')}>个人</Button>
-        </Tooltip>
-        <Tooltip title="退出登录">
-          <Button type="text" size="small" danger icon={<LogoutOutlined />} onClick={logout}>退出</Button>
-        </Tooltip>
+        <Dropdown menu={{ items: menuItems }} placement="topRight">
+          <Button type="text" size="small" icon={<MenuOutlined style={{ color: '#64748b' }} />} />
+        </Dropdown>
       </div>
     </div>
   );
