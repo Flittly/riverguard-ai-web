@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/stores/authStore';
 import HomeMap from './HomeMap';
+import HomeStats from './HomeStats';
 
 export default function HomePage() {
   const { userInfo } = useAuthStore();
@@ -17,6 +18,8 @@ export default function HomePage() {
       <div className='glass-card' style={{ padding: 0, overflow: 'hidden' }}>
         <HomeMap />
       </div>
+
+      <HomeStats />
     </div>
   );
 }
