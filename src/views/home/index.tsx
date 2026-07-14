@@ -15,7 +15,7 @@ export default function HomePage() {
     <div style={{ display: 'flex', gap: 0 }}>
       <DashboardSidebar activeKey={activePanel} onSelect={setActivePanel} />
 
-      <div style={{ marginLeft: 240, flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ marginLeft: 88, flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
         <GreetingBar onDateChange={(date) => console.log('回溯日期:', date)} />
 
         {/* Row 1: 断面指标卡片 */}
