@@ -55,7 +55,7 @@ export default function DashboardSidebar({ activeKey, onSelect }: DashboardSideb
                 alignItems: 'center',
                 justifyContent: 'center',
                 border: 'none',
-                background: active ? 'rgba(99,102,241,0.1)' : 'transparent',
+                background: active ? '#1e293b' : 'transparent',
                 borderRadius: 999,
                 width: 36,
                 height: 36,
@@ -70,7 +70,7 @@ export default function DashboardSidebar({ activeKey, onSelect }: DashboardSideb
                 if (!active) { e.currentTarget.style.background = 'transparent'; }
               }}
             >
-              <Icon style={{ fontSize: 17, color: active ? '#6366F1' : '#64748b' }} />
+              <Icon style={{ fontSize: 17, color: active ? '#ffffff' : '#64748b' }} />
             </button>
           );
         })}

@@ -1,8 +1,10 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Layout, Avatar, Dropdown } from 'antd';
 import {
-  UserOutlined, TeamOutlined, ProfileOutlined, SettingOutlined, LogoutOutlined,
+  TeamOutlined, ProfileOutlined, SettingOutlined, LogoutOutlined,
   AlertOutlined, FileTextOutlined, CommentOutlined,
+  MailOutlined, BellOutlined, SearchOutlined,
+  SwapOutlined,
 } from '@ant-design/icons';
 import { useAuthStore } from '@/stores/authStore';
 import type { MenuProps } from 'antd';
@@ -20,7 +22,7 @@ function NavButtons() {
   const location = useLocation();
 
   return (
-    <div style={{ display: 'flex', gap: 2 }}>
+    <div style={{ display: 'flex', gap: 4 }}>
       {pages.map(({ key, label, icon: Icon }) => {
         const active = location.pathname === key;
         return (
@@ -30,16 +32,16 @@ function NavButtons() {
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
               border: 'none',
-              background: active ? 'rgba(99,102,241,0.1)' : 'transparent',
+              background: active ? '#1e293b' : 'transparent',
               cursor: 'pointer',
               padding: '6px 16px',
-              borderRadius: 20,
+              borderRadius: 999,
               transition: 'all 0.2s',
               height: 36,
               fontFamily: 'inherit',
               fontSize: 13,
               fontWeight: active ? 600 : 400,
-              color: active ? '#6366F1' : '#64748b',
+              color: active ? '#ffffff' : '#64748b',
             }}
             onMouseEnter={(e) => {
               if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(148,163,184,0.1)';
@@ -48,7 +50,7 @@ function NavButtons() {
               if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
             }}
           >
-            <Icon style={{ fontSize: 15 }} />
+            <Icon style={{ fontSize: 15, color: active ? '#ffffff' : '#64748b' }} />
             {label}
           </button>
         );
@@ -71,22 +73,81 @@ function UserMenu() {
     { key: 'logout', icon: <LogoutOutlined />, label: '退出登录', onClick: logout, danger: true },
   ];
 
+  const nickname = userInfo?.nickname || userInfo?.username || '值班员';
+  const email = userInfo?.email || 'admin@riverguard.cn';
+
+  const iconBtnStyle: React.CSSProperties = {
+    width: 30, height: 30, borderRadius: '50%',
+    border: 'none',
+    background: 'rgba(148,163,184,0.1)',
+    cursor: 'pointer',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    transition: 'all 0.15s',
+  };
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-      <span style={{ fontSize: 13, color: '#64748b', maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-        {userInfo?.nickname || userInfo?.username || '值班员'}
-      </span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+      <button
+        style={iconBtnStyle}
+        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.2)'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.1)'; }}
+      >
+        <MailOutlined style={{ fontSize: 14, color: '#64748b' }} />
+      </button>
+
+      <button
+        style={iconBtnStyle}
+        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.2)'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.1)'; }}
+      >
+        <BellOutlined style={{ fontSize: 14, color: '#64748b' }} />
+      </button>
+
+      <button
+        style={iconBtnStyle}
+        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.2)'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.1)'; }}
+      >
+        <SearchOutlined style={{ fontSize: 14, color: '#64748b' }} />
+      </button>
+
+      <div style={{ width: 1, height: 24, background: 'rgba(0,0,0,0.08)', margin: '0 4px' }} />
+
       <Dropdown menu={{ items: menuItems }} placement="bottomRight">
-        <div style={{ cursor: 'pointer' }}>
-          <div style={{
-            width: 30, height: 30, borderRadius: 9,
-            background: 'linear-gradient(135deg, #6366F1, #06B6D4)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <UserOutlined style={{ color: '#fff', fontSize: 14 }} />
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          cursor: 'pointer', padding: '2px 2px',
+        }}>
+          <Avatar
+            size={32}
+            icon={<TeamOutlined />}
+            style={{
+              background: 'linear-gradient(135deg, #6366F1, #06B6D4)',
+              flexShrink: 0,
+            }}
+          />
+          <div style={{ lineHeight: 1.3, minWidth: 0 }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#1e293b', whiteSpace: 'nowrap' }}>
+              {nickname}
+            </div>
+            <div style={{ fontSize: 10, color: '#94a3b8', whiteSpace: 'nowrap' }}>
+              {email}
+            </div>
           </div>
         </div>
       </Dropdown>
+
+      <button
+        title="切换用户"
+        style={{
+          ...iconBtnStyle,
+          marginLeft: 2,
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.25)'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.1)'; }}
+      >
+        <SwapOutlined style={{ fontSize: 14, color: '#64748b', transform: 'rotate(90deg)' }} />
+      </button>
     </div>
   );
 }
