@@ -1,25 +1,43 @@
-import { useAuthStore } from '@/stores/authStore';
+import { useState } from 'react';
+import SectionCards from './SectionCards';
+import GreetingBar from './GreetingBar';
+import DashboardSidebar from './DashboardSidebar';
+import WarningRiskPanel from './WarningRiskPanel';
+import WaterLevelPanel from './WaterLevelPanel';
 import HomeMap from './HomeMap';
-import HomeStats from './HomeStats';
+import WarningEventTable from './WarningEventTable';
+import EmergencyContacts from './EmergencyContacts';
 
 export default function HomePage() {
-  const { userInfo } = useAuthStore();
+  const [activePanel, setActivePanel] = useState('overview');
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <div className="glass-card">
-        <h2 style={{ fontSize: 18, fontWeight: 600, color: '#1e293b', marginBottom: 8 }}>现场实时智能预警大屏</h2>
-        <p style={{ color: '#64748b', fontSize: 14 }}>
-          当前用户：{userInfo?.nickname || userInfo?.username}
-          （{userInfo?.roleNames?.join('、')}）
-        </p>
-      </div>
+    <div style={{ display: 'flex', gap: 0 }}>
+      <DashboardSidebar activeKey={activePanel} onSelect={setActivePanel} />
 
-      <div className='glass-card' style={{ padding: 0, overflow: 'hidden' }}>
-        <HomeMap />
-      </div>
+      <div style={{ marginLeft: 240, flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <GreetingBar onDateChange={(date) => console.log('回溯日期:', date)} />
 
-      <HomeStats />
+        {/* Row 1: 断面指标卡片 */}
+        <SectionCards />
+
+        {/* Row 2: 数据看板 (左) + GIS 地图 (右) */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div>
+            <WarningRiskPanel />
+            <WaterLevelPanel />
+          </div>
+          <div className="glass-panel-static" style={{ padding: 0, overflow: 'hidden', minHeight: 460 }}>
+            <HomeMap />
+          </div>
+        </div>
+
+        {/* Row 3: 预警事件表 (左) + 应急通讯录 (右) */}
+        <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 16 }}>
+          <WarningEventTable />
+          <EmergencyContacts />
+        </div>
+      </div>
     </div>
   );
 }

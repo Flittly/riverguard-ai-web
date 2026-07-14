@@ -1,12 +1,12 @@
-import { Card, Descriptions } from 'antd';
+import { Descriptions } from 'antd';
 import { useAuthStore } from '@/stores/authStore';
 
 export default function ProfilePage() {
   const { userInfo } = useAuthStore();
 
   return (
-    <div className="glass-card">
-      <h3 style={{ fontSize: 16, fontWeight: 600, color: '#1e293b', marginBottom: 16 }}>个人中心</h3>
+    <div className="glass-panel-static" style={{ padding: 24 }}>
+      <h3 style={{ fontSize: 16, fontWeight: 600, color: '#F1F5F9', marginBottom: 16 }}>个人中心</h3>
       <Descriptions bordered column={1}>
         <Descriptions.Item label="用户名">{userInfo?.username}</Descriptions.Item>
         <Descriptions.Item label="昵称">{userInfo?.nickname}</Descriptions.Item>
