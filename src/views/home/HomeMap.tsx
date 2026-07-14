@@ -16,7 +16,7 @@ export default function HomeMap() {
   useEffect(() => {
     if (mapRef.current && !instanceRef.current) {
       instanceRef.current = L.map(mapRef.current, {
-        center: [30.5, 112.0], // 长江中游
+        center: [30.5, 112.0],
         zoom: 6,
         zoomControl: true,
         attributionControl: false,

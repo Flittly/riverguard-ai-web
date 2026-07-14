@@ -2,9 +2,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { AlertOutlined, FileTextOutlined, CommentOutlined } from '@ant-design/icons';
 
 const pages = [
-  { key: '/', label: '预警大屏', icon: AlertOutlined, bg: 'rgba(147, 197, 253, 0.22)' },
-  { key: '/report', label: '报告生成', icon: FileTextOutlined, bg: 'rgba(134, 239, 172, 0.22)' },
-  { key: '/meeting', label: '险情会商', icon: CommentOutlined, bg: 'rgba(253, 230, 138, 0.22)' },
+  { key: '/', label: '预警大屏', icon: AlertOutlined },
+  { key: '/report', label: '报告生成', icon: FileTextOutlined },
+  { key: '/meeting', label: '险情会商', icon: CommentOutlined },
 ];
 
 export default function PageNav() {
@@ -12,38 +12,36 @@ export default function PageNav() {
   const location = useLocation();
 
   return (
-    <div style={{ display: 'flex', height: 56, width: 600 }}>
-      {pages.map(({ key, label, icon: Icon, bg }) => {
+    <div style={{ display: 'flex', height: 56, gap: 4, paddingRight: 8 }}>
+      {pages.map(({ key, label, icon: Icon }) => {
         const active = location.pathname === key;
         return (
           <button
             key={key}
             onClick={() => navigate(key)}
             style={{
-              flex: 1,
-              border: 'none',
-              borderRight: '1px solid rgba(255,255,255,0.35)',
-              background: active ? bg : 'transparent',
-              backdropFilter: 'blur(12px)',
-              cursor: 'pointer',
               display: 'flex',
-              flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
-              gap: 2,
-              transition: 'background 0.2s',
-              height: 56,
-              borderRadius: 0,
+              gap: 6,
+              border: active ? '1px solid rgba(99,102,241,0.3)' : '1px solid transparent',
+              background: active ? 'rgba(99,102,241,0.12)' : 'transparent',
+              cursor: 'pointer',
+              padding: '6px 14px',
+              borderRadius: 10,
+              transition: 'all 0.2s',
+              height: 36,
+              alignSelf: 'center',
+              fontFamily: 'inherit',
             }}
             onMouseEnter={(e) => {
-              if (!active) (e.currentTarget as HTMLButtonElement).style.background = bg;
+              if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.06)';
             }}
             onMouseLeave={(e) => {
               if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
             }}
           >
-            <Icon style={{ fontSize: 18, color: active ? '#1e293b' : '#64748b' }} />
-            <span style={{ fontSize: 11, fontWeight: active ? 600 : 400, color: active ? '#1e293b' : '#64748b' }}>
+            <Icon style={{ fontSize: 15, color: active ? '#6366F1' : '#64748B' }} />
+            <span style={{ fontSize: 13, fontWeight: active ? 600 : 400, color: active ? '#e2e8f0' : '#64748B' }}>
               {label}
             </span>
           </button>

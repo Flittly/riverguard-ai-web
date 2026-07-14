@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Avatar, Dropdown } from 'antd';
-import { UserOutlined, TeamOutlined, ProfileOutlined, SettingOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons';
+import { UserOutlined, TeamOutlined, ProfileOutlined, SettingOutlined, LogoutOutlined, MoreOutlined } from '@ant-design/icons';
 import { useAuthStore } from '@/stores/authStore';
 import type { MenuProps } from 'antd';
 
@@ -28,24 +28,36 @@ export default function UserPanel() {
         zIndex: 1000,
         width: 600,
         padding: '14px 12px',
-        borderRadius: '0 22px 0 0',
-        borderTop: '1px solid rgba(30, 64, 175, 0.25)',
+        borderRadius: '0 24px 0 0',
+        borderTop: '1px solid rgba(99,102,241,0.15)',
         borderLeft: 'none',
         borderBottom: 'none',
+        boxShadow: '0 -4px 20px rgba(0,0,0,0.3)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <Avatar size={32} icon={<UserOutlined />} style={{ background: '#1677ff', flexShrink: 0 }} />
+        <Avatar
+          size={32}
+          icon={<UserOutlined />}
+          style={{
+            background: 'linear-gradient(135deg, #6366F1, #06B6D4)',
+            flexShrink: 0,
+          }}
+        />
         <div style={{ flex: 1, minWidth: 0, lineHeight: 1.4 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {userInfo?.nickname || userInfo?.username}
           </div>
-          <div style={{ fontSize: 11, color: '#94a3b8' }}>
+          <div style={{ fontSize: 11, color: '#64748B' }}>
             {userInfo?.roleNames?.join('、') || '—'}
           </div>
         </div>
         <Dropdown menu={{ items: menuItems }} placement="topRight">
-          <Button type="text" size="small" icon={<MenuOutlined style={{ color: '#64748b' }} />} />
+          <Button
+            type="text"
+            size="small"
+            icon={<MoreOutlined style={{ color: '#64748B' }} />}
+          />
         </Dropdown>
       </div>
     </div>
