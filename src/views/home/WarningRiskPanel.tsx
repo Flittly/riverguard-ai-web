@@ -12,7 +12,15 @@ export default function WarningRiskPanel() {
   return (
     <div className="glass-panel-static" style={{ padding: 20, marginBottom: 16 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h3 style={{ fontSize: 15, fontWeight: 600, color: '#1e293b', margin: 0 }}>预警风险统计</h3>
+        <h3 style={{
+          fontSize: 17, fontWeight: 700, color: '#1e293b', margin: 0,
+          background: 'rgba(99,102,241,0.08)',
+          padding: '4px 16px',
+          borderRadius: '22px 0 22px 0',
+          display: 'inline-block',
+          lineHeight: '1.3',
+          transform: 'translate(-21px, -21px)',
+        }}>预警风险统计</h3>
         <div style={{ display: 'flex', background: 'rgba(0,0,0,0.04)', borderRadius: 10, padding: 2 }}>
           {[{ key: 'monthly' as const, label: '月度' }, { key: 'annually' as const, label: '年度' }].map((t) => (
             <button key={t.key} onClick={() => setTab(t.key)} style={{

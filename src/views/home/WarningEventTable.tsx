@@ -14,7 +14,15 @@ export default function WarningEventTable() {
   return (
     <div className="glass-panel-static" style={{ padding: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h3 style={{ fontSize: 15, fontWeight: 600, color: '#1e293b', margin: 0 }}>预警事件</h3>
+        <h3 style={{
+          fontSize: 17, fontWeight: 700, color: '#1e293b', margin: 0,
+          background: 'rgba(245,158,11,0.08)',
+          padding: '4px 16px',
+          borderRadius: '22px 0 22px 0',
+          display: 'inline-block',
+          lineHeight: '1.3',
+          transform: 'translate(-21px, -21px)',
+        }}>预警事件</h3>
         <span style={{ fontSize: 12, color: '#6366F1', cursor: 'pointer' }}>查看全部 →</span>
       </div>
 

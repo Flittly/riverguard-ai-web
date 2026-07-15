@@ -1,7 +1,15 @@
 export default function WaterLevelPanel() {
   return (
     <div className="glass-panel-static" style={{ padding: 20 }}>
-      <h3 style={{ fontSize: 15, fontWeight: 600, color: '#1e293b', margin: '0 0 4px' }}>今日水位极值</h3>
+      <h3 style={{
+        fontSize: 17, fontWeight: 700, color: '#1e293b', margin: '0 0 8px',
+        background: 'rgba(6,182,212,0.08)',
+        padding: '4px 16px',
+        borderRadius: '22px 0 22px 0',
+        display: 'inline-block',
+        lineHeight: '1.3',
+        transform: 'translate(-21px, -21px)',
+      }}>今日水位极值</h3>
       <p style={{ fontSize: 12, color: '#94a3b8', margin: '0 0 18px' }}>长江中游荆江河段</p>
 
       <div style={{ fontSize: 38, fontWeight: 800, color: '#1e293b', marginBottom: 4 }}>
