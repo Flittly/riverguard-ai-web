@@ -1,13 +1,14 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Layout, Avatar, Dropdown } from 'antd';
+import { Layout, Avatar, Dropdown, Tooltip } from 'antd';
 import {
   TeamOutlined, ProfileOutlined, SettingOutlined, LogoutOutlined,
   AlertOutlined, FileTextOutlined, CommentOutlined,
   MailOutlined, BellOutlined, SearchOutlined,
-  SwapOutlined,
+  SwapOutlined, UserAddOutlined, CheckCircleFilled,
 } from '@ant-design/icons';
 import { useAuthStore } from '@/stores/authStore';
 import type { MenuProps } from 'antd';
+import { useState, useEffect } from 'react';
 
 const { Header, Content } = Layout;
 
@@ -61,7 +62,14 @@ function NavButtons() {
 
 function UserMenu() {
   const navigate = useNavigate();
-  const { userInfo, manageableRoles, logout } = useAuthStore();
+  const { userInfo, manageableRoles, logout, getSavedAccounts, switchAccount } = useAuthStore();
+  const [savedAccounts, setSavedAccounts] = useState<ReturnType<typeof getSavedAccounts>>([]);
+
+  const refreshAccounts = () => setSavedAccounts(getSavedAccounts());
+
+  useEffect(() => {
+    refreshAccounts();
+  }, []);
 
   const menuItems: MenuProps['items'] = [
     { key: 'profile', icon: <ProfileOutlined />, label: '个人中心', onClick: () => navigate('/profile') },
@@ -71,6 +79,30 @@ function UserMenu() {
       : []),
     { type: 'divider' as const },
     { key: 'logout', icon: <LogoutOutlined />, label: '退出登录', onClick: logout, danger: true },
+  ];
+
+  const switchMenuItems: MenuProps['items'] = [
+    ...savedAccounts.map((acc, i) => ({
+      key: `account-${i}`,
+      icon: <CheckCircleFilled style={{ opacity: 0 }} />,
+      label: (
+        <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.3 }}>
+          <span style={{ fontWeight: 600, fontSize: 13 }}>{acc.nickname}</span>
+          <span style={{ fontSize: 11, color: '#94a3b8' }}>{acc.username} · {acc.email}</span>
+        </div>
+      ),
+      onClick: async () => {
+        await switchAccount(acc.token);
+        refreshAccounts();
+      },
+    })),
+    ...(savedAccounts.length > 0 ? [{ type: 'divider' as const }] : []),
+    {
+      key: 'add-account',
+      icon: <UserAddOutlined />,
+      label: savedAccounts.length === 0 ? '添加账号' : '登录其他账号',
+      onClick: () => navigate('/login'),
+    },
   ];
 
   const nickname = userInfo?.nickname || userInfo?.username || '值班员';
@@ -137,17 +169,20 @@ function UserMenu() {
         </div>
       </Dropdown>
 
-      <button
-        title="切换用户"
-        style={{
-          ...iconBtnStyle,
-          marginLeft: 2,
-        }}
-        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.25)'; }}
-        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.1)'; }}
-      >
-        <SwapOutlined style={{ fontSize: 14, color: '#64748b', transform: 'rotate(90deg)' }} />
-      </button>
+      <Dropdown menu={{ items: switchMenuItems }} placement="bottomRight" trigger={['click']} onOpenChange={(open) => { if (open) refreshAccounts(); }}>
+        <Tooltip title="切换用户">
+          <button
+            style={{
+              ...iconBtnStyle,
+              marginLeft: 2,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.25)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(148,163,184,0.1)'; }}
+          >
+            <SwapOutlined style={{ fontSize: 14, color: '#64748b', transform: 'rotate(90deg)' }} />
+          </button>
+        </Tooltip>
+      </Dropdown>
     </div>
   );
 }
