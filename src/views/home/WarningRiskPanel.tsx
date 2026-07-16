@@ -15,7 +15,7 @@ export default function WarningRiskPanel() {
         <h3 style={{
           fontSize: 17, fontWeight: 700, color: '#1e293b', margin: 0,
           background: 'rgba(99,102,241,0.08)',
-          padding: '4px 16px',
+          padding: '10px 16px',
           borderRadius: '22px 0 22px 0',
           display: 'inline-block',
           lineHeight: '1.3',

@@ -17,7 +17,7 @@ export default function WarningEventTable() {
         <h3 style={{
           fontSize: 17, fontWeight: 700, color: '#1e293b', margin: 0,
           background: 'rgba(245,158,11,0.08)',
-          padding: '4px 16px',
+          padding: '10px 16px',
           borderRadius: '22px 0 22px 0',
           display: 'inline-block',
           lineHeight: '1.3',

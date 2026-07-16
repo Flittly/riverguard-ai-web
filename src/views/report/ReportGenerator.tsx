@@ -20,11 +20,10 @@ export default function ReportGenerator({ onGenerated }: ReportGeneratorProps) {
         topic: topic.trim(),
         requirements: requirements.trim() || undefined,
       });
-      const now = new Date();
       const item: ReportItem = {
-        id: Date.now().toString(),
-        topic: topic.trim(),
-        createdAt: `${now.getMonth() + 1}-${now.getDate()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`,
+        id: result.id,
+        topic: result.topic,
+        createdAt: result.createdAt,
         result,
       };
       onGenerated(item);
